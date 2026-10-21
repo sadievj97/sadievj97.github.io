@@ -8,15 +8,15 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script>try{document.documentElement.setAttribute('data-mode',localStorage.getItem('js-mode')==='dark'?'dark':'light')}catch(e){document.documentElement.setAttribute('data-mode','light')}</script>
 <style>
 /* Layout: a client deck. Cover, agenda, then one slide per case: action title, an at-a-glance strip, three short points, one exhibit. */
 :root{
-  --desk:#E7E9EE; --slide:#FFFFFF; --ink:#16213A; --muted:#5E6679; --rule:#D3D8E2;
+  --desk:#E5E8EF; --slide:#FDFDFE; --ink:#16213A; --muted:#5E6679; --rule:#D3D8E2;
   --brand:#1F3A6B; --brand-soft:#E8EDF7; --hi:#F4C542; --neg:#B5473A; --on-brand:#FFFFFF;
   --title:"Source Serif 4",Georgia,serif; --body:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--desk:#0D1220;--slide:#161D2E;--ink:#E7EBF4;--muted:#9AA3B8;--rule:#2A3349;--brand:#8EA9E0;--brand-soft:#1E2840;--hi:#E8B92E;--neg:#E07A6C;--on-brand:#0D1220;color-scheme:dark}}
-:root[data-theme="dark"]{--desk:#0D1220;--slide:#161D2E;--ink:#E7EBF4;--muted:#9AA3B8;--rule:#2A3349;--brand:#8EA9E0;--brand-soft:#1E2840;--hi:#E8B92E;--neg:#E07A6C;--on-brand:#0D1220;color-scheme:dark}
+:root[data-mode="dark"]{--desk:#0D1220;--slide:#161D2E;--ink:#E7EBF4;--muted:#9AA3B8;--rule:#2A3349;--brand:#8EA9E0;--brand-soft:#1E2840;--hi:#E8B92E;--neg:#E07A6C;--on-brand:#0D1220;color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--desk);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.5;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
@@ -111,7 +111,44 @@ svg text{font-family:var(--body)}
 .btn .ic{width:16px;height:16px}
 .btn.ghost{background:transparent;color:var(--brand)}
 .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.mode-btn{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;display:inline-flex;gap:7px;align-items:center;font-family:var(--mono);font-size:12.5px;padding:9px 13px;border:1px solid var(--rule);background:var(--slide);color:var(--ink);cursor:pointer;box-shadow:0 10px 24px -14px #0b163099}
+.mode-btn:hover{border-color:var(--brand)}
+.nx{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start}
+.nx>*{min-width:0}
+.cform{border:1px solid var(--rule);padding:18px;display:grid;gap:14px}
+.cf-h{display:flex;gap:12px;align-items:center}
+.cf-h .bub{width:38px;height:38px;border-radius:8px;background:var(--brand);color:var(--on-brand);display:grid;place-items:center;flex:none}
+.cf-h .bub .ic{width:18px;height:18px}
+.cf-h b{display:block;font-family:var(--title);font-size:18px}
+.cf-h span{font-size:13.5px;color:var(--muted)}
+.cf-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cf-grid label{display:grid;gap:5px;font-family:var(--mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);min-width:0}
+.cf-grid .full{grid-column:1/-1}
+.cf-grid input,.cf-grid textarea{width:100%;min-width:0;font-family:var(--body);font-size:15px;letter-spacing:0;text-transform:none;color:var(--ink);background:var(--desk);border:1px solid var(--rule);padding:10px 11px;resize:vertical}
+.cf-grid input:focus,.cf-grid textarea:focus{outline:2px solid var(--brand);outline-offset:0}
+.cf-foot{display:flex;gap:12px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+.f-status{margin-right:auto;font-size:13.5px;color:var(--muted)}
+.f-status.ok{color:var(--brand);font-weight:600}
+.f-status.err{color:var(--neg)}
+.f-count{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.nx-side{display:grid;gap:12px;align-content:start;justify-items:start;padding:18px;background:var(--brand-soft)}
+.nx-k{margin:0;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mail{max-width:100%;overflow-wrap:anywhere}
+@media (max-width:760px){.nx,.cf-grid{grid-template-columns:1fr}}
 @media (max-width:760px){.scr,.agenda,.two,.edu{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.cover .grid{display:none}.cphoto{position:static;width:120px;height:120px;border-width:4px;margin-top:8px}}
+
+.hp{position:absolute!important;left:-10000px!important;top:auto;width:1px;height:1px;overflow:hidden}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.mode-btn .ic{width:16px;height:16px}
+body{transition:background-color .25s ease,color .25s ease}
+button[disabled]{opacity:.6;cursor:progress}
+.f-count{font-variant-numeric:tabular-nums}
+.js-chip,.js-toast{position:fixed;z-index:40;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;background:#15171D;color:#F3F4F7;border:1px solid #2B2F3B;border-radius:12px;padding:9px 13px;font:500 13px/1.35 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;box-shadow:0 16px 30px -18px #000}
+.js-chip{left:calc(14px + env(safe-area-inset-left,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));max-width:min(440px,calc(100% - 170px))}
+.js-toast{top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);max-width:calc(100% - 32px)}
+.js-chip .ic{width:16px;height:16px;color:#A9B6FF;fill:none;stroke:currentColor;stroke-width:1.8}
+.js-chip-all{opacity:.7}
+@media (prefers-reduced-motion:reduce){body{transition:none}}
 </style>
 </head>
 <body>
@@ -141,8 +178,13 @@ svg text{font-family:var(--body)}
 <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/></symbol>
 <symbol id="i-flag" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></symbol>
 <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/></symbol>
 </svg>
 
+<button class="mode-btn" id="modeBtn" type="button" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-moon"/></svg><span>Dark mode</span></button>
 <main class="deck">
 
 <section class="slide cover" aria-label="Cover">
@@ -296,11 +338,24 @@ svg text{font-family:var(--body)}
 
 <section class="slide" aria-labelledby="t7">
   <div class="top"><span>Next steps</span><span>07</span></div>
-  <h2 class="action" id="t7">Proposed next step: a 15-minute call this week</h2>
-  <div class="row">
-    <span class="mail" id="mail">sadievj@gmail.com</span>
-    <button class="btn" id="copy" type="button"><svg class="ic"><use href="#i-mail"/></svg><span>Copy email</span></button>
-    <a class="btn ghost" href="https://www.linkedin.com/in/sadievj" target="_blank" rel="noopener"><svg class="ic"><use href="#i-link"/></svg>LinkedIn</a>
+  <h2 class="action" id="t7">Proposed next step: a <span style="white-space:nowrap">15-minute</span> call this week</h2>
+  <div class="nx">
+    <form class="cform" data-contact novalidate aria-label="Send a note">
+      <div class="cf-h"><span class="bub"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg></span><div><b>Send a note</b><span>It goes straight to my phone.</span></div></div>
+      <div class="cf-grid">
+        <label for="co-name">Name<input id="co-name" name="name" type="text" maxlength="100" autocomplete="name"></label>
+        <label for="co-org">Company<input id="co-org" name="org" type="text" maxlength="120" autocomplete="organization"></label>
+        <label class="full" for="co-contact">Email or LinkedIn<input id="co-contact" name="contact" type="text" maxlength="200" autocomplete="email"></label>
+        <label class="full" for="co-msg">Message<textarea id="co-msg" name="message" rows="4" maxlength="2000" placeholder="We would like to talk about..."></textarea></label>
+      </div>
+      <input class="hp" id="co-web" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="cf-foot"><span class="f-status" role="status"></span><span class="f-count">0 / 2000</span><button class="btn" type="submit"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg>Send note</button></div>
+    </form>
+    <div class="nx-side">
+      <p class="nx-k">Or reach me directly</p>
+      <span class="mail" id="mail">sadievj@gmail.com</span>
+      <div class="row"><button class="btn" id="copy" type="button"><svg class="ic"><use href="#i-mail"/></svg><span>Copy email</span></button><a class="btn ghost" href="https://www.linkedin.com/in/sadievj" target="_blank" rel="noopener"><svg class="ic"><use href="#i-link"/></svg>LinkedIn</a></div>
+    </div>
   </div>
   <div class="foot"><span>Based in New York, NY</span><span class="pg">9</span></div>
 </section>
@@ -308,6 +363,93 @@ svg text{font-family:var(--body)}
 </main>
 <script>
 document.getElementById('copy').addEventListener('click',function(e){var l=e.currentTarget.querySelector('span');function ok(){l.textContent='Copied';setTimeout(function(){l.textContent='Copy email'},1600)}function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById('mail'));var s=getSelection();s.removeAllRanges();s.addRange(r);l.textContent='Selected'}try{navigator.clipboard.writeText('sadievj@gmail.com').then(ok,sel)}catch(_){sel()}});
+</script>
+<script>
+(function(){
+  var API = "https://sadiev-relay.sadievj97.workers.dev", PAGE = "consulting", EMAIL = "sadievj@gmail.com";
+  var root = document.documentElement;
+  function store(k, v){ try { if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v); } catch (e) {} }
+  function read(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+  /* Light and dark mode button */
+  var mb = document.getElementById('modeBtn');
+  function paint(){
+    if (!mb) return;
+    var dark = root.getAttribute('data-mode') === 'dark';
+    mb.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    mb.querySelector('use').setAttribute('href', dark ? '#i-sun' : '#i-moon');
+    mb.querySelector('span').textContent = dark ? 'Light mode' : 'Dark mode';
+  }
+  if (mb) mb.addEventListener('click', function(){
+    var next = root.getAttribute('data-mode') === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-mode', next); store('js-mode', next); paint();
+  });
+  paint();
+
+  function toast(msg){
+    var t = document.createElement('div'); t.className = 'js-toast'; t.setAttribute('role', 'status');
+    t.textContent = msg; document.body.appendChild(t);
+    setTimeout(function(){ if (t.parentNode) t.parentNode.removeChild(t); }, 4200);
+  }
+
+  /* Contact boxes: messages go to the Worker, which forwards them to Telegram */
+  var t0 = Date.now();
+  Array.prototype.forEach.call(document.querySelectorAll('form[data-contact]'), function(f){
+    var st = f.querySelector('.f-status'), btn = f.querySelector('button[type="submit"]'),
+        ta = f.querySelector('textarea'), cnt = f.querySelector('.f-count'), thread = f.querySelector('.cm-thread');
+    function v(n){ var el = f.elements[n]; return el ? String(el.value || '').trim() : ''; }
+    function say(msg, cls){ if (!st) return; st.textContent = msg; st.className = 'f-status' + (cls ? ' ' + cls : ''); }
+    if (ta && cnt) ta.addEventListener('input', function(){ cnt.textContent = ta.value.length + ' / 2000'; });
+    f.addEventListener('submit', function(e){
+      e.preventDefault();
+      var d = { page: PAGE, name: v('name'), org: v('org'), contact: v('contact'), message: v('message'), website: v('website'), t: Date.now() - t0 };
+      if (d.message.length < 2) { say('Please write a message first.', 'err'); if (ta) ta.focus(); return; }
+      if (!API) { say('This box is not connected yet. Please email ' + EMAIL + '.', 'err'); return; }
+      if (btn) btn.disabled = true;
+      say('Sending...');
+      fetch(API + '/message', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(d) })
+        .then(function(r){ return r.json().catch(function(){ return { ok: false }; }); })
+        .then(function(j){
+          if (j && j.ok) {
+            say('Sent. It is on my phone now.', 'ok');
+            if (thread) {
+              var b = document.createElement('div'); b.className = 'bubble'; b.textContent = d.message;
+              var s = document.createElement('small'); s.textContent = 'Delivered ✓'; b.appendChild(s); thread.appendChild(b);
+            }
+            if (ta) { ta.value = ''; if (cnt) cnt.textContent = '0 / 2000'; }
+          } else if (j && j.error === 'fast') { say('Please wait a few seconds and try again.', 'err'); }
+          else if (j && j.error === 'rate') { say('Too many messages from this connection. Please email ' + EMAIL + '.', 'err'); }
+          else { say('That did not go through. Please email ' + EMAIL + '.', 'err'); }
+        })
+        .catch(function(){ say('That did not go through. Please email ' + EMAIL + '.', 'err'); })
+        .then(function(){ if (btn) btn.disabled = false; });
+    });
+  });
+
+  /* Hidden view counter. Open any page with #me once to stop counting your own visits and see the numbers. */
+  var owner = read('js-owner') === '1';
+  if (location.hash === '#me') { store('js-owner', '1'); owner = true; toast('Owner mode is on. Visits from this browser are not counted.'); }
+  else if (location.hash === '#notme') { store('js-owner', null); owner = false; toast('Owner mode is off.'); }
+  if (!API) return;
+  if (!owner) {
+    var body = JSON.stringify({ page: PAGE, ref: document.referrer || '' });
+    try {
+      if (!(navigator.sendBeacon && navigator.sendBeacon(API + '/view', body)))
+        fetch(API + '/view', { method: 'POST', body: body, mode: 'no-cors', keepalive: true });
+    } catch (e) {}
+  } else {
+    fetch(API + '/stats').then(function(r){ return r.json(); }).then(function(s){
+      if (!s || !s.ok) return;
+      var p = s.pages[PAGE] || {};
+      var c = document.createElement('div'); c.className = 'js-chip'; c.title = 'Only you see this (owner mode)';
+      c.innerHTML = '<svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg>';
+      var a = document.createElement('span');
+      a.textContent = (p.views | 0) + ' views · ' + (p.unique | 0) + ' unique · ' + (p.today | 0) + ' today';
+      var b = document.createElement('span'); b.className = 'js-chip-all'; b.textContent = 'All sites: ' + (s.total.views | 0);
+      c.appendChild(a); c.appendChild(b); document.body.appendChild(c);
+    }).catch(function(){});
+  }
+})();
 </script>
 
 </body>
